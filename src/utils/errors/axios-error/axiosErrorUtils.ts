@@ -5,8 +5,11 @@ import { setAppErrorAC, setAppStatusAC } from "../../../features/bll/reducers/ap
 export const handleServerNetworkError = (e: unknown, dispatch: Dispatch) => {
   const err = e as Error | AxiosError
   if (axios.isAxiosError(err)) {
-    const error = err.response?.data.message ? err.response.data.message : err.message
+    const error = err.response?.data.msg ? err.response.data.msg : err.message
     dispatch(setAppErrorAC({ error: error }))
   }
   dispatch(setAppStatusAC({ status: "failed" }))
+}
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.")
 }
