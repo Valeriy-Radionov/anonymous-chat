@@ -8,19 +8,23 @@ import { validatorRequiredField } from "../../../../utils/validators/authValidat
 import { authTC } from "../../../bll/reducers/authReducer"
 import { loginStyle } from "../theme-mui/loginTheme"
 
-export type FormikType = {
+export type AuthFormikType = {
   name?: string
+  destination?: string
+  theme?: string
+  textMessage?: string
 }
 
 export const Login = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+
   const formik = useFormik({
     initialValues: {
       name: "",
     },
     validate: (values) => {
-      const errors: FormikType = {}
+      const errors: AuthFormikType = {}
       validatorRequiredField(values, errors)
       return errors
     },
@@ -33,9 +37,9 @@ export const Login = () => {
     },
   })
   const errorFormik = formik.touched.name && formik.errors.name
-  // if (isLoggedIn) {
-  //   return <Navigate key={"usersTable"} to={RouterPath.profile} />
-  // }
+  if (isLoggedIn) {
+    return <Navigate key={"usersTable"} to={RouterPath.profile} />
+  }
   return (
     <Grid container justifyContent={"center"} alignItems={"center"} sx={{ height: "40vh" }}>
       <Grid item justifyContent={"center"} alignItems={"center"}>

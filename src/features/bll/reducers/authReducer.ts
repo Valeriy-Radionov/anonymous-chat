@@ -23,12 +23,24 @@ const setIsLoggedIn = slice.actions.setIsLoggedIn
 export const authTC = createAsyncThunk("auth/setIsLoggedIn", async (payload: AuthDataType, thunkApi) => {
   thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
   try {
-    const isLoggedIn = await authApi.auth(payload)
-    const status = isLoggedIn.data.status
+    const response = await authApi.auth(payload)
+    const status = response.data.status
     if (status === true) {
+      localStorage.setItem("token", response.data.token)
       thunkApi.dispatch(setAppStatusAC({ status: "idle" }))
     }
     thunkApi.dispatch(setIsLoggedIn({ isLoggedIn: status }))
+  } catch (e) {
+    thunkApi.dispatch(setAppStatusAC({ status: "failed" }))
+    handleServerNetworkError(e, thunkApi.dispatch)
+  }
+})
+
+export const logoutTC = createAsyncThunk("auth/logout", async (payload: { token: string }, thunkApi) => {
+  thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
+  try {
+    thunkApi.dispatch(setIsLoggedIn({ isLoggedIn: false }))
+    localStorage.removeItem("token")
   } catch (e) {
     handleServerNetworkError(e, thunkApi.dispatch)
   } finally {
