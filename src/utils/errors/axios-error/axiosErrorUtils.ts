@@ -10,6 +10,3 @@ export const handleServerNetworkError = (e: unknown, dispatch: Dispatch) => {
   }
   dispatch(setAppStatusAC({ status: "failed" }))
 }
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.")
-}

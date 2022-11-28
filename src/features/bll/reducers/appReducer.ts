@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { authApi } from "../../../api/authApi"
+import { handleServerNetworkError } from "../../../utils/errors/axios-error/axiosErrorUtils"
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
-export type InfoResponseType = {
-  resultCode: 0 | 1
-  message: string
-}
+
 export type InitialAppStateType = {
   status: RequestStatusType
   error: string
@@ -39,17 +38,17 @@ export const setAppInitializedAC = slice.actions.setAppInitializedAC
 export const setAppStatusAC = slice.actions.setAppStatusAC
 
 export const isInitializedTC = createAsyncThunk("app/initialized", async (token: string | null, thunkApi) => {
-  // try {
-  //   if (token) {
-  //     const response = await authApi.me(token)
-  //     if (response.data) {
-  //       thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
-  //     }
-  //   }
-  // } catch (e) {
-  //   thunkApi.dispatch(setAppInitializedAC({ isInitialized: false }))
-  //   handleServerNetworkError(e, thunkApi.dispatch)
-  // } finally {
-  //   thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
-  // }
+  try {
+    if (token) {
+      const response = await authApi.me(token)
+      if (response.data.isAuth === true) {
+        thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
+      }
+    }
+  } catch (e) {
+    thunkApi.dispatch(setAppInitializedAC({ isInitialized: false }))
+    handleServerNetworkError(e, thunkApi.dispatch)
+  } finally {
+    thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
+  }
 })
