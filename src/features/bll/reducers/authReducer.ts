@@ -36,10 +36,11 @@ export const authTC = createAsyncThunk("auth/setIsLoggedIn", async (payload: Aut
   }
 })
 
-export const logoutTC = createAsyncThunk("auth/logout", async (payload: { token: string }, thunkApi) => {
+export const logoutTC = createAsyncThunk("auth/logout", async (payload: { token: string | null }, thunkApi) => {
   thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
   try {
     thunkApi.dispatch(setIsLoggedIn({ isLoggedIn: false }))
+    payload.token && (await authApi.logout(payload.token))
     localStorage.removeItem("token")
   } catch (e) {
     handleServerNetworkError(e, thunkApi.dispatch)

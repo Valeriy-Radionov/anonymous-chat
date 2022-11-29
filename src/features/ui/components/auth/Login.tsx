@@ -10,9 +10,6 @@ import { loginStyle } from "../theme-mui/loginTheme"
 
 export type AuthFormikType = {
   name?: string
-  destination?: string
-  theme?: string
-  textMessage?: string
 }
 
 export const Login = () => {

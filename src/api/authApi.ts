@@ -20,6 +20,9 @@ export const authApi = {
     return baseInstance.post<AuthDataType, AxiosResponse<AuthResponseType>>("/auth", authData)
   },
   me(token: string) {
-    return baseInstance.get<{ token: string }, AxiosResponse<MeResponseType>>(`/me/${token}`)
+    return baseInstance.get<{ token: string }, AxiosResponse<MeResponseType>>(`/auth/me/${token}`)
+  },
+  logout(token: string) {
+    return baseInstance.post<AxiosResponse<AuthResponseType>>(`/auth/logout/${token}`)
   },
 }

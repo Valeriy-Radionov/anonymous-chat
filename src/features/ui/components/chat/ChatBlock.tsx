@@ -1,5 +1,5 @@
 import { Container } from "@mui/material"
-import { MessageForm } from "./message-block/MessageForm"
+import { MessageForm } from "./send-message-block/MessageForm"
 import { UserProfile } from "./profile/UserProfile"
 
 export const ChatBlock = () => {
