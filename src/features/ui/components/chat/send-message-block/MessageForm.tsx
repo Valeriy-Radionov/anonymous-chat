@@ -5,7 +5,6 @@ import { FormikErrors, useFormik } from "formik"
 import { useState } from "react"
 import { useAppDispatch } from "../../../../../utils/hooks/appHooks"
 import { messageValidator } from "../../../../../utils/validators/authValidators"
-import { setAppErrorAC } from "../../../../bll/reducers/appReducer"
 import { SearchDestination } from "./drop-list/SearchDestination"
 import { Logout } from "./logout/Logout"
 import { ThemeMessage } from "./theme-message/ThemeMessage"
@@ -21,7 +20,6 @@ export const MessageForm = () => {
   const setDestinationValue = (value: string) => {
     setDestination(value)
   }
-
   const formik = useFormik({
     initialValues: {
       destination: "",
@@ -53,7 +51,7 @@ export const MessageForm = () => {
         >
           <FormGroup sx={{ margin: "20px" }}>
             <h1 style={{ color: "white" }}>Send message</h1>
-            <SearchDestination getFieldProps={formik.getFieldProps("destination")} setDestination={setDestinationValue} destination={destination} />
+            <SearchDestination getFieldProps={formik.getFieldProps("destination")} />
             {errorFormikDestination && <div style={{ color: "red", textAlign: "start" }}>{formik.errors.destination}</div>}
             <ThemeMessage getFieldProps={formik.getFieldProps("theme")} />
             {errorFormikTheme && <div style={{ color: "red", margin: "0 0 10px 0", textAlign: "left" }}>{formik.errors.theme}</div>}
