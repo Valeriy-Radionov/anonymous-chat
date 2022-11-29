@@ -1,22 +1,26 @@
-import { InputAdornment, ListItem, ListItemIcon, ListItemText } from "@mui/material"
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+import { InputAdornment } from "@mui/material"
 import TextField from "@mui/material/TextField"
 import { FieldInputProps } from "formik"
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../../../../utils/hooks/appHooks"
+import { getUsersTC } from "../../../../../bll/reducers/userReduser"
 
 type DropListPropsType = {
   getFieldProps?: FieldInputProps<any>
-  setDestination: (value: string) => void
-  destination: string
 }
-export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps, setDestination, destination }) => {
-  const users = useAppSelector((state) => state.users)
-  const stateUserName = ["Ronan", "Valred", "Pelfo", "Hrenf", "< Jeck", "Dick"]
+export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps }) => {
+  const users = useAppSelector((state) => state.users.users)
+  const dispatch = useAppDispatch()
+  const token = localStorage.getItem("token")
   const [user, setUser] = useState("")
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser(e.target.value)
   }
+  console.log(users)
+  useEffect(() => {
+    dispatch(getUsersTC(token))
+  }, [])
   return (
     <TextField
       id="outlined-select-currency-native"
@@ -52,9 +56,9 @@ export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps, 
         },
       }}
     >
-      {users.map((el, index) => (
-        <option key={`${el}${index}`} value={el.userName}>
-          {el.userName}
+      {users.map((user) => (
+        <option key={`${user.userName}${user.id}`} value={user.userName}>
+          {user.userName}
         </option>
       ))}
     </TextField>

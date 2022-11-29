@@ -43,7 +43,6 @@ export const isInitializedTC = createAsyncThunk("app/initialized", async (token:
     if (token) {
       const response = await authApi.me(token)
       if (response.data.isAuth === true) {
-        thunkApi.dispatch(getUsersTC(token))
         thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
       }
     }
