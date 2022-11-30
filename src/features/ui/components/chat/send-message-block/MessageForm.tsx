@@ -2,28 +2,26 @@ import { Button, FormControl, FormGroup } from "@mui/material"
 import TextareaAutosize from "@mui/material/TextareaAutosize"
 import { Container } from "@mui/system"
 import { FormikErrors, useFormik } from "formik"
-import { useState } from "react"
-import { useAppDispatch } from "../../../../../utils/hooks/appHooks"
+import { useAppDispatch, useAppSelector } from "../../../../../utils/hooks/appHooks"
 import { messageValidator } from "../../../../../utils/validators/authValidators"
+import { sendMessageTC } from "../../../../bll/reducers/messageReducer"
 import { SearchDestination } from "./drop-list/SearchDestination"
 import { Logout } from "./logout/Logout"
 import { ThemeMessage } from "./theme-message/ThemeMessage"
+
 export type MessageFormikType = {
   destination?: string
-  theme?: string
+  themeMessage?: string
   textMessage?: string
 }
 export const MessageForm = () => {
   const dispatch = useAppDispatch()
-  const [destination, setDestination] = useState<string>("")
-
-  const setDestinationValue = (value: string) => {
-    setDestination(value)
-  }
+  const currentUserName = useAppSelector((state) => state.auth.currentUser.userName)
+  const token = localStorage.getItem("token")
   const formik = useFormik({
     initialValues: {
       destination: "",
-      theme: "",
+      themeMessage: "",
       textMessage: "",
     },
     validate: (values: MessageFormikType) => {
@@ -32,29 +30,35 @@ export const MessageForm = () => {
       return errors
     },
     onSubmit: (values) => {
+      if (token) {
+        dispatch(
+          sendMessageTC({
+            destination: values.destination,
+            themeMessage: values.themeMessage,
+            textMessage: values.textMessage,
+            senderId: token,
+            sender: currentUserName,
+          })
+        )
+      }
       formik.resetForm()
     },
   })
   const errorFormikDestination = formik.touched.destination && formik.errors.destination
-  const errorFormikTheme = formik.touched.theme && formik.errors.theme
+  const errorFormikTheme = formik.touched.themeMessage && formik.errors.themeMessage
   const errorFormikMessage = formik.touched.textMessage && formik.errors.textMessage
-  console.log(errorFormikDestination?.toString(), errorFormikTheme?.toString(), errorFormikMessage?.toString())
+
   return (
     <Container sx={{ width: "50%", height: "100vh", padding: "20px 20px 20px 0" }}>
       <Logout />
       <form onSubmit={formik.handleSubmit} style={{ textAlign: "center", height: "100vh" }}>
-        <FormControl
-          sx={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <FormControl sx={{ width: "100%", height: "100%" }}>
           <FormGroup sx={{ margin: "20px" }}>
             <h1 style={{ color: "white" }}>Send message</h1>
             <SearchDestination getFieldProps={formik.getFieldProps("destination")} />
             {errorFormikDestination && <div style={{ color: "red", textAlign: "start" }}>{formik.errors.destination}</div>}
             <ThemeMessage getFieldProps={formik.getFieldProps("theme")} />
-            {errorFormikTheme && <div style={{ color: "red", margin: "0 0 10px 0", textAlign: "left" }}>{formik.errors.theme}</div>}
+            {errorFormikTheme && <div style={{ color: "red", margin: "0 0 10px 0", textAlign: "left" }}>{formik.errors.themeMessage}</div>}
             <TextareaAutosize
               aria-placeholder="Your message"
               aria-label="maximum height"

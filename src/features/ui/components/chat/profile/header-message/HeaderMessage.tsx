@@ -5,19 +5,22 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import ListItemAvatar from "@mui/material/ListItemAvatar"
 import Avatar from "@mui/material/Avatar"
 import ListItem from "@mui/material/ListItem"
-
-export const HeaderMessage = () => {
+type HeaderMessagePropsType = {
+  sender: string
+  date: string | undefined
+}
+export const HeaderMessage: React.FC<HeaderMessagePropsType> = ({ sender, date }) => {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
       </ListItemAvatar>
       <Container>
-        <ListItemText primary="from: Nick Wofkader" />
+        <ListItemText primary={`from: ${sender}`} />
         <div style={{ display: "flex", alignItems: "center", padding: "0" }}>
           <AccessTimeIcon fontSize="small" color="success" />
           <Typography sx={{ display: "inline", textAlign: "center", color: "orange" }} component="span" variant="body2" color="text.primary">
-            {`Date: 12.07.22 14.45`}
+            {`Date: ${date}`}
           </Typography>
         </div>
       </Container>

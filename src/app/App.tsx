@@ -11,11 +11,10 @@ function App() {
   const token = localStorage.getItem("token")
   const isInitialized = useAppSelector((state) => state.app.isInitialized)
   const loading = useAppSelector((state) => state.app.status)
-
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(isInitializedTC(token))
-  }, [dispatch])
+  }, [dispatch, isInitialized])
 
   if (!isInitialized) {
     return (

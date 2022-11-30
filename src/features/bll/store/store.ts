@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import thunkMiddleware from "redux-thunk"
 import { appReducer } from "../reducers/appReducer"
 import { authReducer } from "../reducers/authReducer"
+import { messageReducer } from "../reducers/messageReducer"
 import { userReducer } from "../reducers/userReduser"
 
 export type AppDispatch = typeof store.dispatch
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   users: userReducer,
+  messages: messageReducer,
 })
 
 export const store = configureStore({

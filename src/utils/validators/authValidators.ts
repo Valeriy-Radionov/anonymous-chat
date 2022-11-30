@@ -13,8 +13,8 @@ export const messageValidator = (values: MessageFormikType, error: MessageFormik
   if (!values.destination) {
     error.destination = errorRequired
   }
-  if (!values.theme) {
-    error.theme = errorRequired
+  if (!values.themeMessage) {
+    error.themeMessage = errorRequired
   }
   if (!values.textMessage) {
     error.textMessage = errorRequired

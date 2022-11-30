@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { authApi } from "../../../api/authApi"
+import { authApi, AuthResponseType } from "../../../api/authApi"
 import { handleServerNetworkError } from "../../../utils/errors/axios-error/axiosErrorUtils"
+import { getMessagesTC } from "./messageReducer"
 import { getUsersTC } from "./userReduser"
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
@@ -44,6 +45,7 @@ export const isInitializedTC = createAsyncThunk("app/initialized", async (token:
       const response = await authApi.me(token)
       if (response.data.isAuth === true) {
         thunkApi.dispatch(setAppInitializedAC({ isInitialized: true }))
+        thunkApi.dispatch(getMessagesTC(token))
       }
     }
   } catch (e) {

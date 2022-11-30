@@ -6,8 +6,8 @@ export type AuthDataType = {
 }
 
 export type AuthResponseType = {
-  msg: string
-  status: boolean
+  id: string
+  userName: string
   token: string
 }
 export type MeResponseType = {

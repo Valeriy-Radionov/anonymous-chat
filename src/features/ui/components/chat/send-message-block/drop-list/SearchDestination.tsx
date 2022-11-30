@@ -17,7 +17,6 @@ export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps }
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser(e.target.value)
   }
-  console.log(users)
   useEffect(() => {
     dispatch(getUsersTC(token))
   }, [])

@@ -7,7 +7,6 @@ export const usersApi = {
   },
 }
 export type UserType = {
-  _id: string
   id: string
   userName: string
   token: string
