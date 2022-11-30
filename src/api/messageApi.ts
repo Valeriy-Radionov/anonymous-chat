@@ -14,8 +14,8 @@ export type UsersMessageType = {
   textMessage: string
   themeMessage: string
   senderId: string
-  sender: string
   date?: string
+  sender?: string
 }
 export type MessagesResponseType = {
   msg: string

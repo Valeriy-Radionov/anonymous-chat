@@ -2,30 +2,44 @@ import { ExpandLess } from "@mui/icons-material"
 import ExpandMore from "@mui/icons-material/ExpandMore"
 import MessageIcon from "@mui/icons-material/Message"
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
+import { TableContainer } from "@mui/material"
 import Collapse from "@mui/material/Collapse"
 import Divider from "@mui/material/Divider"
 import List from "@mui/material/List"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
-import React from "react"
-import { useAppSelector } from "../../../../../utils/hooks/appHooks"
+import React, { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../../../../utils/hooks/appHooks"
+import { getMessagesTC } from "../../../../bll/reducers/messageReducer"
 import { HeaderMessage } from "./header-message/HeaderMessage"
-// background: #108dc7;  /* fallback for old browsers */
-// background: -webkit-linear-gradient(to right, #ef8e38, #108dc7);  /* Chrome 10-25, Safari 5.1-6 */
-// background: linear-gradient(to right, #ef8e38, #108dc7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 export const UserProfile = () => {
   const [open, setOpen] = React.useState(false)
+  const dispatch = useAppDispatch()
   const messages = useAppSelector((state) => state.messages.messages)
+  const token = localStorage.getItem("token")
   const handleClick = () => {
     setOpen(!open)
   }
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      if (token) {
+        dispatch(getMessagesTC(token))
+      }
+      if (!token) {
+        clearInterval(timerId)
+      }
+    }, 3000)
+  }, [token])
   return messages ? (
-    <div style={{ width: "50%", height: "100%", background: "background.paper", padding: "20px 0 20px 20px", color: "white" }}>
+    <TableContainer
+      style={{ width: "50%", height: "95%", background: "background.paper", color: "white", border: "2px solid black", borderRadius: "5px", margin: "20px 0 0 5px", padding: "0 0 0 5px" }}
+    >
+      <h1 style={{ textAlign: "center" }}>MESSAGES</h1>
       {messages.map((message, index) => {
         return (
-          <List key={`message.destination${index}`}>
+          <List key={`destination${message.senderId}${index}`}>
             <HeaderMessage sender={message.sender} date={message.date} />
             <ListItemButton onClick={handleClick}>
               <ListItemIcon>
@@ -48,8 +62,10 @@ export const UserProfile = () => {
           </List>
         )
       })}
-    </div>
+    </TableContainer>
   ) : (
-    <div style={{ width: "50%", height: "100%", background: "background.paper", padding: "20px 0 20px 20px", color: "white" }}></div>
+    <div style={{ width: "50%", height: "100%", background: "background.paper", padding: "20px 0 20px 20px", color: "white" }}>
+      <h1>No messages</h1>
+    </div>
   )
 }

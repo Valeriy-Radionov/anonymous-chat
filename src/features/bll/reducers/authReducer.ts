@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { authApi, AuthDataType, AuthResponseType } from "../../../api/authApi"
 import { handleServerNetworkError } from "../../../utils/errors/axios-error/axiosErrorUtils"
 import { setAppStatusAC } from "./appReducer"
@@ -26,8 +26,8 @@ const slice = createSlice({
   },
 })
 export const authReducer = slice.reducer
-const setIsLoggedIn = slice.actions.setIsLoggedIn
-const setCurrentUser = slice.actions.setCurrentUser
+export const setIsLoggedIn = slice.actions.setIsLoggedIn
+export const setCurrentUser = slice.actions.setCurrentUser
 
 export const authTC = createAsyncThunk("auth/setIsLoggedIn", async (payload: AuthDataType, thunkApi) => {
   thunkApi.dispatch(setAppStatusAC({ status: "loading" }))

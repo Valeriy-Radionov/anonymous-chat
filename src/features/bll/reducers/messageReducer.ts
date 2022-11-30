@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { messageApi, UsersMessageType } from "../../../api/messageApi"
 import { handleServerNetworkError } from "../../../utils/errors/axios-error/axiosErrorUtils"
 import { setAppStatusAC } from "./appReducer"
+import { logoutTC } from "./authReducer"
 type MessagesStateType = {
   messages: UsersMessageType[]
 }
@@ -16,6 +17,11 @@ const slice = createSlice({
     getMessages(state, action: PayloadAction<{ messages: UsersMessageType[] }>) {
       state.messages = action.payload.messages
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logoutTC.fulfilled, (state, action) => {
+      state.messages = []
+    })
   },
 })
 

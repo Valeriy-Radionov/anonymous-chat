@@ -9,7 +9,7 @@ import { getUsersTC } from "../../../../../bll/reducers/userReduser"
 type DropListPropsType = {
   getFieldProps?: FieldInputProps<any>
 }
-export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps }) => {
+export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps, ...rest }) => {
   const users = useAppSelector((state) => state.users.users)
   const dispatch = useAppDispatch()
   const token = localStorage.getItem("token")
@@ -40,6 +40,7 @@ export const SearchDestination: React.FC<DropListPropsType> = ({ getFieldProps }
           </InputAdornment>
         ),
       }}
+      {...rest}
       {...getFieldProps}
       sx={{
         "& .MuiOutlinedInput-root": {

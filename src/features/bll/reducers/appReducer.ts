@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { authApi, AuthResponseType } from "../../../api/authApi"
+import { authApi } from "../../../api/authApi"
 import { handleServerNetworkError } from "../../../utils/errors/axios-error/axiosErrorUtils"
 import { getMessagesTC } from "./messageReducer"
-import { getUsersTC } from "./userReduser"
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
 

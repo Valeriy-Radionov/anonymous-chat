@@ -12,8 +12,10 @@ export const Logout = () => {
     navigate("/auth")
   }
   return (
-    <IconButton onClick={logoutHandler}>
-      <ExitToAppIcon fontSize="large" color="error" />
-    </IconButton>
+    <div style={{ display: "flex", justifyContent: "end" }}>
+      <IconButton onClick={logoutHandler} size={"small"} sx={{ border: "2px solid darkgrey", bgcolor: "green" }}>
+        <ExitToAppIcon fontSize="large" sx={{ color: "white" }} />
+      </IconButton>
+    </div>
   )
 }

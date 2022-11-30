@@ -1,12 +1,12 @@
-import { Container } from "@mui/material"
-import ListItemText from "@mui/material/ListItemText"
-import Typography from "@mui/material/Typography"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import ListItemAvatar from "@mui/material/ListItemAvatar"
+import { Container } from "@mui/material"
 import Avatar from "@mui/material/Avatar"
 import ListItem from "@mui/material/ListItem"
+import ListItemAvatar from "@mui/material/ListItemAvatar"
+import ListItemText from "@mui/material/ListItemText"
+import Typography from "@mui/material/Typography"
 type HeaderMessagePropsType = {
-  sender: string
+  sender: string | undefined
   date: string | undefined
 }
 export const HeaderMessage: React.FC<HeaderMessagePropsType> = ({ sender, date }) => {

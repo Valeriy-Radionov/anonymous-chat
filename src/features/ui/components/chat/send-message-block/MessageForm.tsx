@@ -16,8 +16,8 @@ export type MessageFormikType = {
 }
 export const MessageForm = () => {
   const dispatch = useAppDispatch()
-  const currentUserName = useAppSelector((state) => state.auth.currentUser.userName)
   const token = localStorage.getItem("token")
+
   const formik = useFormik({
     initialValues: {
       destination: "",
@@ -37,7 +37,6 @@ export const MessageForm = () => {
             themeMessage: values.themeMessage,
             textMessage: values.textMessage,
             senderId: token,
-            sender: currentUserName,
           })
         )
       }
@@ -62,8 +61,8 @@ export const MessageForm = () => {
             <TextareaAutosize
               aria-placeholder="Your message"
               aria-label="maximum height"
-              placeholder="Maximum 4 rows"
-              style={{ width: "100%", minHeight: "150px" }}
+              placeholder="Entered your message"
+              style={{ width: "100%", minHeight: "150px", background: "#343a40", border: "1px solid white", borderRadius: "5px" }}
               {...formik.getFieldProps("textMessage")}
             />
             {errorFormikMessage && <div style={{ color: "red", textAlign: "start" }}>{formik.errors.textMessage}</div>}
@@ -71,9 +70,9 @@ export const MessageForm = () => {
               type={"submit"}
               variant={"contained"}
               sx={{
-                bgcolor: "rgb(167,115,241)",
+                bgcolor: "#646cc7;",
                 marginTop: "30px",
-                background: "radial-gradient(circle, rgba(167,115,241,0.12788865546218486) 22%, rgba(95,154,23,0.1558998599439776) 31%, rgba(23,143,154,0.5788690476190477) 77%)",
+
                 ":hover": {
                   bgcolor: "#73a1f1",
                 },
